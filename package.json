@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Kounah/kouna-lib/issues"
   },
-  "homepage": "https://github.com/Kounah/kouna-lib#readme"
+  "homepage": "https://github.com/Kounah/kouna-lib#readme",
+  "devDependencies": {
+    "eslint": "^6.7.2",
+    "express": "^4.17.1"
+  }
 }
