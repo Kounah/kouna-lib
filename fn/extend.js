@@ -1,13 +1,19 @@
 const defined = require('./defined');
 
+/**@typedef {extend} ExtendFunction */
+
+/**@typedef {Object<string, any>} More */
+
 /**
  * @function
  * returns an object with all the properties of `base` overwritten with the
  * first not undefined value of the same property in `args`\
  * if the property is of type `object` and not null, recursively extend it's
  * properties
- * @param {Object} base - the base object
- * @param  {...Object} args - objects to extend with
+ * @template T
+ * @param {T} base - the base object
+ * @param  {...T & More} args - (inherited from T) objects to extend with
+ * @returns {T}
  */
 function extend(base, ...args) {
   // throw if base is not an object
@@ -42,4 +48,5 @@ function extend(base, ...args) {
   }, {});
   return res;
 }
+
 module.exports = extend;

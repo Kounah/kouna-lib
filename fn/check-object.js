@@ -1,7 +1,10 @@
 const check = require('check');
 
+/**@typedef {checkObject} CheckObjectFunction */
+
 /**
- * 
+ * @function
+ * check but it will only check objects
  * @param {*} val 
  * @param {import('./check').CheckDisplay} display
  * @param {boolean} allowNull 

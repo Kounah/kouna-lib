@@ -1,7 +1,9 @@
 const check = require('./check');
 
+/**@typedef {checkThrow} CheckThrowFunction */
+
 /**
- * @function checkThrow
+ * @function
  * shortcut for check with the action option set to throw
  * @param {any} val 
  * @param {import('./check').CheckType} type 

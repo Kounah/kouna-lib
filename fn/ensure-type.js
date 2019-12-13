@@ -14,6 +14,8 @@ const type_names = [
  * any string that is a possible result of `typeof`
  */
 
+/**@typedef {ensureType} EnsureTypeFunction */
+
 /**
  * makes sure the passed value will resolve to a valid typename
  * @function

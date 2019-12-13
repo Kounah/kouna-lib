@@ -1,5 +1,7 @@
 const defined = require('./defined');
 
+/**@typedef {any} CheckType*/
+
 /**
  * @typedef {Array.<(val) => boolean>} ValidatorFunction
  * @typedef {Object} Validator
@@ -189,5 +191,7 @@ function check(val, type, options, ...validators) {
   else if(typeof actionName === 'string' && actionName === 'throw')
     return val;
 }
+
+/**@typedef {check} CheckFunction */
 
 module.exports = check;
