@@ -1,20 +1,17 @@
-/**@type {import('./defined').DefinedFunction} */
-module.exports.defined = require('./defined');
+const defined = require('./defined');
+const definedThrow = require('./defined-throw');
+const extend = require('./extend');
+const check = require('./check');
+const checkThrow = require('./check-throw');
+const checkObject = require('./check-object');
+const ensureType = require('./ensure-type');
 
-/**@type {import('./defined-throw').DefinedThrowFunction} */
-module.exports.definedThrow = require('./defined-throw');
-
-/**@type {import('./extend').ExtendFunction} */
-module.exports.extend = require('./extend');
-
-/**@type {import('./check').CheckFunction} */
-module.exports.check = require('./check');
-
-/**@type {import('./check-throw').CheckThrowFunction} */
-module.exports.checkThrow = require('./check-throw');
-
-/**@type {import('./check-object').CheckObjectFunction} */
-module.exports.checkObject = require('./check-object');
-
-/**@type {import('./ensure-type').EnsureTypeFunction} */
-module.exports.ensureType = require('./ensure-type');
+module.exports = { 
+  defined,
+  definedThrow,
+  extend,
+  check,
+  checkThrow,
+  checkObject,
+  ensureType
+};
