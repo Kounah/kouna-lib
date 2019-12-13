@@ -13,6 +13,18 @@ const checkObject = require('./check-object');
 /**@type {import('./ensure-type').EnsureTypeFunction} */
 const ensureType = require('./ensure-type');
 
+/**
+ * @typedef {Object} Functions
+ * @prop {import('./defined').DefinedFunction} defined
+ * @prop {import('./defined-throw').DefinedThrowFunction}  definedThrow
+ * @prop {import('./extend').ExtendFunction} extend
+ * @prop {import('./check').CheckFunction} check
+ * @prop {import('./check-throw').CheckThrowFunction} checkThrow
+ * @prop {import('./check-object').CheckObjectFunction} checkObject
+ * @prop {import('./ensure-type').EnsureTypeFunction} ensureType
+ */
+
+/**@type {Functions} */
 module.exports = { 
   defined,
   definedThrow,
