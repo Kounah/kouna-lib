@@ -1,9 +1,7 @@
-module.exports = {
-  defined: require('./defined'),
-  definedThrow: require('./defined-throw'),
-  extend: require('./extend'),
-  check: require('./check'),
-  checkThrow: require('./check-throw'),
-  checkObject: require('./check-object'),
-  ensureType: require('./ensure-type')
-};
+module.exports.defined = require('./defined');
+module.exports.definedThrow = require('./defined-throw');
+module.exports.extend = require('./extend');
+module.exports.check = require('./check');
+module.exports.checkThrow = require('./check-throw');
+module.exports.checkObject = require('./check-object');
+module.exports.ensureType = require('./ensure-type');

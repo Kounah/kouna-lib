@@ -1,6 +1,7 @@
 const defined = require('./defined');
 
 /**
+ * @function
  * returns an object with all the properties of `base` overwritten with the
  * first not undefined value of the same property in `args`\
  * if the property is of type `object` and not null, recursively extend it's
