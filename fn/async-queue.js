@@ -1,4 +1,7 @@
+/**@typedef {asyncQueue} AsyncQueueFunction */
+
 /**
+ * @function
  * handels an array with an async handler function for each item
  * @template T, ResT
  * @param {Array.<T>} arr 

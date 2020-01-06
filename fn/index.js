@@ -12,9 +12,12 @@ const checkThrow = require('./check-throw');
 const checkObject = require('./check-object');
 /**@type {import('./ensure-type').EnsureTypeFunction} */
 const ensureType = require('./ensure-type');
+/**@type {import('./async-queue').AsyncQueueFunction} */
+const asyncQueue = require('./async-queue');
 
 /**
  * @typedef {Object} Functions
+ * @prop {import('./async-queue').AsyncQueueFunction} asyncQueue
  * @prop {import('./defined').DefinedFunction} defined
  * @prop {import('./defined-throw').DefinedThrowFunction}  definedThrow
  * @prop {import('./extend').ExtendFunction} extend
@@ -25,7 +28,8 @@ const ensureType = require('./ensure-type');
  */
 
 /**@type {Functions} */
-module.exports = { 
+module.exports = {
+  asyncQueue,
   defined,
   definedThrow,
   extend,
