@@ -3,6 +3,7 @@ const os = require('os');
 
 /**
  * @typedef {Object} StreamObject
+ * @function
  * @prop {string} filename
  * @prop {() => import('fs').WriteStream} ws - function to create a writable stream
  * @prop {boolean} keepOpen - keep the stream open after writing to it
@@ -32,6 +33,7 @@ function convertToString(o) {
  * @typedef {('stdout'|'stderr')} NamedStream
  * @typedef {(StreamObject|NamedStream)} Stream
  * prints args to a given WriteStream
+ * @function
  * @param {Stream} stream
  * @param  {...any} args 
  */
@@ -57,6 +59,7 @@ function print(stream, ...args) {
 
 /**
  * prints args to a given WriteStream and appends os.EOL
+ * @function
  * @param {Stream} stream 
  * @param  {...any} args 
  */
@@ -72,6 +75,7 @@ function println(stream, ...args) {
 
 /**
  * prints args to stdout
+ * @function
  * @param  {...any} args 
  */
 function printStdout(...args) {
@@ -80,6 +84,7 @@ function printStdout(...args) {
 
 /**
  * prints args to stdout and appends os.EOL
+ * @function
  * @param  {...any} args 
  */
 function printlnStdout(...args) {
@@ -88,6 +93,7 @@ function printlnStdout(...args) {
 
 /**
  * prints args to stderr
+ * @function
  * @param  {...any} args 
  */
 function printStderr(...args) {
@@ -96,6 +102,7 @@ function printStderr(...args) {
 
 /**
  * prints args to stderr and appends os.EOL
+ * @function
  * @param  {...any} args 
  */
 function printlnStderr(...args) {
@@ -104,6 +111,7 @@ function printlnStderr(...args) {
 
 /**
  * fills an entire line with a given sequence and appends os.EOL
+ * @function
  * @param {import('fs').WriteStream} stream 
  * @param {string} seq 
  */
@@ -118,6 +126,7 @@ function fill(stream, seq) {
 
 /**
  * fills an entire line with a given sequence and appends os.EOL
+ * @function
  * @param {string} seq 
  */
 function fillStdout(seq) {
@@ -126,12 +135,27 @@ function fillStdout(seq) {
 
 /**
  * fills an entire line with a given sequence and appends os.EOL
+ * @function
  * @param {string} seq
  */
 function fillStderr(seq) {
   fill(process.stderr, seq);
 }
 
+/**
+ * @typedef {Object} PrintIndex
+ * @prop {print} print
+ * @prop {println} println
+ * @prop {printStdout} printStdout
+ * @prop {printlnStdout} printlnStdout
+ * @prop {printStderr} printStderr
+ * @prop {printlnStderr} printlnStderr
+ * @prop {fill} fill
+ * @prop {fillStdout} fillStdout
+ * @prop {fillStderr} fillStderr
+ */
+
+/**@type {PrintIndex} */
 module.exports = {
   print,
   println,

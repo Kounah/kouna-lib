@@ -6,7 +6,7 @@ const {spawn} = require('child_process');
 const path = require('path');
 const parseArgs = require('../fn/parse-args');
 const discoverDir = require('../fn/discover-dir');
-const Queue = require('../class/queue.class');
+const Queue = require('../cls/queue.class');
 
 let args = parseArgs(process.argv);
 
