@@ -1,11 +1,12 @@
-/**@typedef {basic} BasicFunction */
+/**@typedef {basic2} Basic2Function */
 
 /**
+ * @function
  * creates a middleware function for basic authentication
- * @param {string} user 
- * @param {string} pwd 
+ * using a map representing the accounts
+ * @param {Map<string, string>} accounts
  */
-function basic (user, pwd) {
+function basic2 (accounts) {
   /**
    * @param {import('express').Request} req
    * @param {import('express').Response} res
@@ -24,7 +25,8 @@ function basic (user, pwd) {
         let username = m[1];
         let password = m[2];
 
-        if(user === username && pwd === password) return next();
+        if(accounts.has(username) && accounts.get(username) === password)
+          return next();
         
         res.set('WWW-Authenticate', 'Basic realm="Our Site"').sendStatus(401);
       }
@@ -34,4 +36,4 @@ function basic (user, pwd) {
   return mw;
 }
 
-module.exports = basic;
+module.exports = basic2;

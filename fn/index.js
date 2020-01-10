@@ -1,40 +1,38 @@
-/**@type {import('./defined').DefinedFunction} */
-const defined = require('./defined');
-/**@type {import('./defined-throw').DefinedThrowFunction} */
-const definedThrow = require('./defined-throw');
-/**@type {import('./extend').ExtendFunction} */
-const extend = require('./extend');
-/**@type {import('./check').CheckFunction} */
-const check = require('./check');
-/**@type {import('./check-throw').CheckThrowFunction} */
-const checkThrow = require('./check-throw');
-/**@type {import('./check-object').CheckObjectFunction} */
-const checkObject = require('./check-object');
-/**@type {import('./ensure-type').EnsureTypeFunction} */
-const ensureType = require('./ensure-type');
-/**@type {import('./async-queue').AsyncQueueFunction} */
 const asyncQueue = require('./async-queue');
+const check = require('./check');
+const checkObject = require('./check-object');
+const checkThrow = require('./check-throw');
+const defined = require('./defined');
+const definedThrow = require('./defined-throw');
+const discoverDir = require('./discover-dir');
+const extend = require('./extend');
+const ensureType = require('./ensure-type');
+const parseArgs = require('./parse-args');
 
 /**
- * @typedef {Object} Functions
+ * @typedef {Object} FunctionIndex
  * @prop {import('./async-queue').AsyncQueueFunction} asyncQueue
- * @prop {import('./defined').DefinedFunction} defined
- * @prop {import('./defined-throw').DefinedThrowFunction}  definedThrow
- * @prop {import('./extend').ExtendFunction} extend
  * @prop {import('./check').CheckFunction} check
- * @prop {import('./check-throw').CheckThrowFunction} checkThrow
  * @prop {import('./check-object').CheckObjectFunction} checkObject
+ * @prop {import('./check-throw').CheckThrowFunction} checkThrow
+ * @prop {import('./defined').DefinedFunction} defined
+ * @prop {import('./defined-throw').DefinedThrowFunction} definedThrow
+ * @prop {import('./discover-dir').DiscoverDirFunction} discoverDir
  * @prop {import('./ensure-type').EnsureTypeFunction} ensureType
+ * @prop {import('./extend').ExtendFunction} extend
+ * @prop {import('./parse-args').ParseArgsFunction} parseArgs
  */
 
-/**@type {Functions} */
+/**@type {FunctionIndex} */
 module.exports = {
   asyncQueue,
+  check,
+  checkObject,
+  checkThrow,
   defined,
   definedThrow,
+  discoverDir,
+  ensureType,
   extend,
-  check,
-  checkThrow,
-  checkObject,
-  ensureType
+  parseArgs
 };

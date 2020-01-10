@@ -33,6 +33,8 @@ class DiscoverDirOptions {
   }
 }
 
+/**@typedef {discoverDir} DiscoverDirFunction */
+
 /**
  * discovers files and directories in a directory
  * @async
