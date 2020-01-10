@@ -1,5 +1,5 @@
-const extend = require('../fn/extend');
-const defined = require('../fn/defined');
+const extend = require('../functions/extend');
+const defined = require('../functions/defined');
 
 /**@type {WebRequestOptions} */
 const defaultOptions = {

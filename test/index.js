@@ -4,8 +4,8 @@
 const process = require('process');
 const {spawn} = require('child_process');
 const path = require('path');
-const parseArgs = require('../fn/parse-args');
-const discoverDir = require('../fn/discover-dir');
+const parseArgs = require('../functions/parse-args');
+const discoverDir = require('../functions/discover-dir');
 const Queue = require('../cls/queue.class');
 
 let args = parseArgs(process.argv);

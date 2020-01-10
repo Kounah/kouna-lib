@@ -1,6 +1,6 @@
 const Events = require('events');
 const WebResponseOptions = require('./web-response-options.class');
-const defined = require('../fn/defined');
+const defined = require('../functions/defined');
 const stream = require('stream');
 
 /**@typedef {WebResponse} Class */

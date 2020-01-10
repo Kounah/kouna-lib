@@ -1,12 +1,12 @@
 const WebRequest = require('./web-request.class');
 const WebResponse = require('./web-response.class');
-/**@type {import('./fn').WebFunctionIndex} */
-const fn = require('./fn');
+/**@type {import('./functions').WebFunctionIndex} */
+const fn = require('./functions');
 
 /**@typedef {Object} WebIndex
  * @prop {import('./web-request.class').Class} WebRequest
  * @prop {import('./web-response.class').Class} WebResponse
- * @prop {import('./fn').WebFunctionIndex} fn 
+ * @prop {import('./functions').WebFunctionIndex} fn 
  */
 
 /**@type {WebIndex} */

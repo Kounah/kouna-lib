@@ -1,4 +1,4 @@
-const defined = require('../fn/defined');
+const defined = require('../functions/defined');
 
 /**@type {WebResponseOptions} */
 const defaultOptions = {
