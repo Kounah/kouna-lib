@@ -11,40 +11,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const fs = require("fs-extra");
-const defined_1 = require("./defined");
-const async_map_1 = require("./async-map");
-/**
- * discovers a directory
- * @param name the path name
- */
-function discover(name, options) {
+const Queue_1 = require("../Queue");
+function discover(dir, options) {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        let stat = yield fs.stat(name);
+        let stat = yield fs.stat(dir);
         if (!stat.isDirectory())
-            throw new Error(`'${name}' is not a direcory`);
-        return yield discoverDir(name, options);
+            return [];
+        let sub = yield fs.readdir(dir);
+        let q = new Queue_1.Queue(sub, (item) => __awaiter(this, void 0, void 0, function* () {
+            var _b, _c, _d, _e;
+            let full = path.join(dir, item);
+            let stat = yield fs.stat(full);
+            if (stat.isDirectory()) {
+                if (typeof ((_b = options) === null || _b === void 0 ? void 0 : _b.onDir) === 'function')
+                    (_c = options) === null || _c === void 0 ? void 0 : _c.onDir(full, stat);
+                let c = (yield fs.readdir(full));
+                let m = c.map(p => path.relative(dir, path.join(full, p)));
+                q.add(...m);
+                return;
+            }
+            if (stat.isFile()) {
+                if (typeof ((_d = options) === null || _d === void 0 ? void 0 : _d.onFile) === 'function')
+                    (_e = options) === null || _e === void 0 ? void 0 : _e.onFile(full, stat);
+                return path.relative(dir, full);
+            }
+        }), {
+            store: !((_a = options) === null || _a === void 0 ? void 0 : _a.useSkipResult)
+        });
+        return (yield q.start().stop().resolve()).filter(item => item !== undefined);
     });
 }
 exports.discover = discover;
-function discoverDir(name, options, base) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return yield async_map_1.asyncMap(yield fs.readdir(name), (cname) => __awaiter(this, void 0, void 0, function* () {
-            var _a, _b, _c, _d;
-            if ((_a = options) === null || _a === void 0 ? void 0 : _a.excludes.map(pat => pat.test(cname)).reduce((p, c) => p || c))
-                return undefined;
-            let full = path.join(name, cname);
-            let stat = yield fs.stat(full);
-            let b = defined_1.defined(name, base);
-            if (stat.isDirectory()) {
-                (_b = options) === null || _b === void 0 ? void 0 : _b.onDir(full);
-                yield discoverDir(full, options, b);
-            }
-            if (stat.isFile()) {
-                (_c = options) === null || _c === void 0 ? void 0 : _c.onFile(full);
-                if (!((_d = options) === null || _d === void 0 ? void 0 : _d.useSkipResult))
-                    return path.relative(b, full);
-            }
-        }));
-    });
-}
-exports.discoverDir = discoverDir;

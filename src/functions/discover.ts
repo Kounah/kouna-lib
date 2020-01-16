@@ -1,51 +1,44 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
-import { defined } from './defined';
-import { asyncMap } from './async-map';
+import { Queue } from '../Queue';
 
 export interface DiscoverOptions {
-  onDir: ((dir: string) => void);
-  onFile: ((file: string) => void);
+  onDir: ((dir: string, stat?: fs.Stats) => void);
+  onFile: ((file: string, stat?: fs.Stats) => void);
   excludes: RegExp[];
   useSkipResult: boolean;
 }
 
-/**
- * discovers a directory
- * @param name the path name
- */
-export async function discover(name: string, options?: DiscoverOptions) {
-  let stat = await fs.stat(name);
-
+export async function discover(dir: string, options?: DiscoverOptions) {
+  let stat = await fs.stat(dir);
   if(!stat.isDirectory())
-    throw new Error(`'${name}' is not a direcory`);
-
-  return await discoverDir(name, options);
-}
-
-export async function discoverDir(
-  name: string,
-  options?: DiscoverOptions,
-  base?: string) {
-  return await asyncMap(await fs.readdir(name), async (cname) => {
-    if(options?.excludes
-      .map(pat => pat.test(cname))
-      .reduce((p, c) => p || c))
-      return undefined;
-
-    let full = path.join(name, cname);
+    return [];
+  
+  let sub = await fs.readdir(dir);
+  let q = new Queue(sub, async (item) => {
+    let full = path.join(dir, item);
     let stat = await fs.stat(full);
-    let b = defined(name, base);
 
     if(stat.isDirectory()) {
-      options?.onDir(full);
-      await discoverDir(full, options, b);
+      if(typeof options?.onDir === 'function')
+        options?.onDir(full, stat);
+      
+      let c = (await fs.readdir(full));
+      let m = c.map(p => path.relative(dir, path.join(full, p)));
+      
+      q.add(...m);
+      return;
     }
 
     if(stat.isFile()) {
-      options?.onFile(full);
-      if(!options?.useSkipResult)
-        return path.relative(b, full);
+      if(typeof options?.onFile === 'function')
+        options?.onFile(full, stat);
+      
+      return path.relative(dir, full);
     }
+  }, {
+    store: !options?.useSkipResult
   });
+
+  return (await q.start().stop().resolve()).filter(item => item !== undefined);
 }

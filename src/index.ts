@@ -1,3 +1,3 @@
-export { WebRequest } from "./web";
-export { Queue } from "./Queue";
 export * from './functions';
+export { Queue } from "./Queue";
+export * from './web';

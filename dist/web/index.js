@@ -1,8 +1,6 @@
 "use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
 Object.defineProperty(exports, "__esModule", { value: true });
 var WebRequest_1 = require("./WebRequest");
 exports.WebRequest = WebRequest_1.WebRequest;
-__export(require("./functions"));
+var Download_1 = require("./Download");
+exports.Download = Download_1.Download;

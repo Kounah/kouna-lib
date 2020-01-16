@@ -3,11 +3,11 @@ import { delay } from "./functions/delay";
 
 export interface IQueueOptions {
   /**the delay after working in milliseconds*/
-  delay: number;
+  delay?: number;
   /**the delay during idle time */
-  idle: number;
+  idle?: number;
   /**stores the results */
-  store: boolean;
+  store?: boolean;
 }
 
 const defaultOptions: IQueueOptions = {
@@ -17,12 +17,12 @@ const defaultOptions: IQueueOptions = {
 };
 
 export class QueueOptions implements IQueueOptions {
-  delay: number;
-  idle: number;
-  store: boolean;
+  delay?: number;
+  idle?: number;
+  store?: boolean;
 
   constructor(props?: IQueueOptions) {
-    if(props === undefined)
+    if(typeof  props === 'undefined')
       props = defaultOptions;
 
     this.delay = defined(defaultOptions.delay, props.delay);
@@ -56,38 +56,67 @@ export class Queue<T, TOut> {
     if(this.items.length > 0) {
       let cur = this.items.shift();
 
-      if(cur === undefined)
+      if(typeof cur === 'undefined')
         return;
       
-      let result = await Promise.resolve(this.handler(cur));
+      let result;
+      try {
+        result = await Promise.resolve(this.handler(cur));
+      } catch(err) {
+        result = err;
+      }
       
       if(this.options.store)
         this.results.push(result);
 
-      if(this.options.delay > 0)
-        await delay(this.options.delay);
+      await delay(this.options?.delay);
       
       return result;
     } else await delay(this.options.idle);
   }
 
   start() {
-    return Promise.resolve(async () => {
+    Promise.resolve((async () => {
       while(!this.terminated) {
         await this.step();
       }
       return this.results;
-    });
+    })());
+    return this;
   }
 
-  async stop() {
-    await new Promise(resolve => {
-      setInterval(() => {
-        if(this.items.length < 0)
-          resolve();
+  terminate() {
+    this.terminated = true;
+  }
+
+  stop() {
+    Promise.resolve((async () => {
+      await new Promise(resolve => {
+        let stopInterval = setInterval(() => {
+          if(this.items.length <= 0) {
+            resolve();
+            clearInterval(stopInterval)
+          }
+        })
+      });
+      await delay(this.options.idle);
+      this.terminate();
+    })());
+    return this;
+  }
+
+  async resolve() {
+    return new Promise<TOut[]>(resolve => {
+      let resolveInterval = setInterval(() => {
+        if(this.terminated) {
+          resolve(this.results);
+          clearInterval(resolveInterval);
+        }
       })
-    });
-    await delay(this.options.idle);
-    return this.results;
+    })
+  }
+  
+  add(...items: T[]) {
+    this.items.push(...items);
   }
 }

@@ -18,7 +18,7 @@ const defaultOptions = {
 };
 class QueueOptions {
     constructor(props) {
-        if (props === undefined)
+        if (typeof props === 'undefined')
             props = defaultOptions;
         this.delay = functions_1.defined(defaultOptions.delay, props.delay);
         this.idle = functions_1.defined(defaultOptions.idle, props.idle);
@@ -36,16 +36,22 @@ class Queue {
         this.results = [];
     }
     step() {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             if (this.items.length > 0) {
                 let cur = this.items.shift();
-                if (cur === undefined)
+                if (typeof cur === 'undefined')
                     return;
-                let result = yield Promise.resolve(this.handler(cur));
+                let result;
+                try {
+                    result = yield Promise.resolve(this.handler(cur));
+                }
+                catch (err) {
+                    result = err;
+                }
                 if (this.options.store)
                     this.results.push(result);
-                if (this.options.delay > 0)
-                    yield delay_1.delay(this.options.delay);
+                yield delay_1.delay((_a = this.options) === null || _a === void 0 ? void 0 : _a.delay);
                 return result;
             }
             else
@@ -53,24 +59,46 @@ class Queue {
         });
     }
     start() {
-        return Promise.resolve(() => __awaiter(this, void 0, void 0, function* () {
+        Promise.resolve((() => __awaiter(this, void 0, void 0, function* () {
             while (!this.terminated) {
                 yield this.step();
             }
             return this.results;
-        }));
+        }))());
+        return this;
+    }
+    terminate() {
+        this.terminated = true;
     }
     stop() {
-        return __awaiter(this, void 0, void 0, function* () {
+        Promise.resolve((() => __awaiter(this, void 0, void 0, function* () {
             yield new Promise(resolve => {
-                setInterval(() => {
-                    if (this.items.length < 0)
+                let stopInterval = setInterval(() => {
+                    if (this.items.length <= 0) {
                         resolve();
+                        clearInterval(stopInterval);
+                    }
                 });
             });
             yield delay_1.delay(this.options.idle);
-            return this.results;
+            this.terminate();
+        }))());
+        return this;
+    }
+    resolve() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise(resolve => {
+                let resolveInterval = setInterval(() => {
+                    if (this.terminated) {
+                        resolve(this.results);
+                        clearInterval(resolveInterval);
+                    }
+                });
+            });
         });
+    }
+    add(...items) {
+        this.items.push(...items);
     }
 }
 exports.Queue = Queue;

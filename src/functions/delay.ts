@@ -1,3 +1,5 @@
-export function delay(time: number) {
-  return new Promise(resolve => setTimeout(() => resolve(), time));
+export function delay(time?: number) {
+  if(typeof time === 'number' && time > 0) {
+    return new Promise<void>(resolve => setTimeout(() => resolve(), time));
+  } else return new Promise<void>(resolve => resolve());
 }

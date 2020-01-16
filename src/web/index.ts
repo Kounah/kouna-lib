@@ -1,2 +1,2 @@
 export { WebRequest } from './WebRequest';
-export * from './functions';
+export { Download } from './Download';

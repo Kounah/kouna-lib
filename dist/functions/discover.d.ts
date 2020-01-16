@@ -1,12 +1,9 @@
+/// <reference types="node" />
+import * as fs from 'fs-extra';
 export interface DiscoverOptions {
-    onDir: ((dir: string) => void);
-    onFile: ((file: string) => void);
+    onDir: ((dir: string, stat?: fs.Stats) => void);
+    onFile: ((file: string, stat?: fs.Stats) => void);
     excludes: RegExp[];
     useSkipResult: boolean;
 }
-/**
- * discovers a directory
- * @param name the path name
- */
-export declare function discover(name: string, options?: DiscoverOptions): Promise<(string | Error | undefined)[]>;
-export declare function discoverDir(name: string, options?: DiscoverOptions, base?: string): Promise<(string | Error | undefined)[]>;
+export declare function discover(dir: string, options?: DiscoverOptions): Promise<(string | undefined)[]>;
